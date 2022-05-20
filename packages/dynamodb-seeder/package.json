@@ -10,9 +10,14 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsc",
-    "start": "ts-node src/cli.ts",
     "prepublish": "npm run clean && npm run build",
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "start": "ts-node src/cli.ts",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "npm run lint -- --fix",
+    "pretty": "prettier --write \"./src/**/*.ts\"",
+    "test": "jest",
+    "test:coverage": "npm run test -- --coverage",
+    "test:watch": "npm run test -- --watch"
   },
   "author": "Erik Rogers <ewrogers@gmail.com>",
   "license": "MIT",
