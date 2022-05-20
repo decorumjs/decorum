@@ -9,13 +9,9 @@
     "noLib": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
     "allowJs": false,
     "target": "es5",
-    "outDir": "dist",
     "moduleResolution": "node",
     "lib": ["es5", "es2015.promise"]
-  },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "**/*.test.ts"]
+  }
 }

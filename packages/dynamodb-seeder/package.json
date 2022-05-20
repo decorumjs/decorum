@@ -1,0 +1,35 @@
+{
+  "name": "@decorum/dynamodb-seeder",
+  "version": "0.1.0",
+  "description": "CLI for seeding data into DynamoDB",
+  "main": "dist/cli.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsc",
+    "start": "ts-node src/cli.ts",
+    "prepublish": "npm run clean && npm run build",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "author": "Erik Rogers <ewrogers@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/decorumjs/decorum/packages/dynamodb-seeder",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/decorumjs/decorum.git"
+  },
+  "bugs": {
+    "url": "https://github.com/decorumjs/decorum/issues"
+  },
+  "keywords": [
+    "dynamodb",
+    "seeder",
+    "cli"
+  ],
+  "dependencies": {
+    "yargs": "^17.5.1"
+  }
+}
