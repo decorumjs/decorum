@@ -111,3 +111,7 @@ dist
 
 # Visual Studio Code folder
 .vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
