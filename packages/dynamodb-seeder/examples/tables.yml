@@ -6,8 +6,8 @@ tables:
       writeCapacityUnits: 5
     keys:
       partitionKey:
-        name: pk
+        name: PK
         type: string
       sortKey:
-        name: sk
+        name: SK
         type: string
