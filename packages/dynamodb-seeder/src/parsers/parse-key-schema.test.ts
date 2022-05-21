@@ -1,4 +1,4 @@
-import { AttributeTypes } from '../types'
+import { AttributeType } from '../types'
 import parseKeySchema from './parse-key-schema'
 
 describe('parseKeySchema() function', () => {
@@ -8,11 +8,11 @@ describe('parseKeySchema() function', () => {
     data = {
       partitionKey: {
         name: 'PK',
-        type: AttributeTypes.String,
+        type: AttributeType.String,
       },
       sortKey: {
         name: 'SK',
-        type: AttributeTypes.Number,
+        type: AttributeType.Number,
       },
     }
   })

@@ -2,6 +2,7 @@ import assert from 'assert'
 import { SeedData } from '../types'
 
 import parseTable from './parse-table'
+import parseIndex from './parse-index'
 
 export default function parseSeedData(doc: unknown): SeedData {
   const { tables, indexes, items } = doc as Record<string, unknown>
@@ -12,7 +13,7 @@ export default function parseSeedData(doc: unknown): SeedData {
 
   return {
     tables: tables ? tables.map(parseTable) : undefined,
-    indexes: undefined,
+    indexes: indexes ? indexes.map(parseIndex) : undefined,
     items: undefined,
   }
 }

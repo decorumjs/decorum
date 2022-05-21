@@ -1,5 +1,5 @@
 import parseTable from './parse-table'
-import { AttributeTypes } from '../types'
+import { AttributeType } from '../types'
 
 describe('parseTable() function', () => {
   let data: Record<string, unknown>
@@ -14,11 +14,11 @@ describe('parseTable() function', () => {
       keys: {
         partitionKey: {
           name: 'PK',
-          type: AttributeTypes.String,
+          type: AttributeType.String,
         },
         sortKey: {
           name: 'SK',
-          type: AttributeTypes.String,
+          type: AttributeType.String,
         },
       },
     }

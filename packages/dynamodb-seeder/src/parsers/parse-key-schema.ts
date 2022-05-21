@@ -1,7 +1,7 @@
 import assert from 'assert'
-import { AttributeDefinition, AttributeTypes, KeySchema } from '../types'
+import { AttributeDefinition, AttributeType, KeySchema } from '../types'
 
-const ATTRIBUTE_TYPE_VALUES = Object.values(AttributeTypes)
+const ATTRIBUTE_TYPE_VALUES = Object.values(AttributeType)
 
 export default function parseKeySchema(data: unknown): KeySchema {
   assert(!!data && typeof data === 'object' && !Array.isArray(data), 'Key schema must be an object')
@@ -19,7 +19,7 @@ export default function parseKeySchema(data: unknown): KeySchema {
 
     assert(typeof type === 'string', 'Partition key type must be a string')
     assert(type.trim(), 'Partition key type cannot be empty or whitespace')
-    assert(ATTRIBUTE_TYPE_VALUES.includes(type as AttributeTypes), 'Partition key type is invalid')
+    assert(ATTRIBUTE_TYPE_VALUES.includes(type as AttributeType), 'Partition key type is invalid')
   }
 
   if (sortKey != null) {
@@ -32,7 +32,7 @@ export default function parseKeySchema(data: unknown): KeySchema {
 
     assert(typeof type === 'string', 'Sort key type must be a string')
     assert(type.trim(), 'Sort key type cannot be empty or whitespace')
-    assert(ATTRIBUTE_TYPE_VALUES.includes(type as AttributeTypes), 'Sort key type is invalid')
+    assert(ATTRIBUTE_TYPE_VALUES.includes(type as AttributeType), 'Sort key type is invalid')
   }
 
   return {

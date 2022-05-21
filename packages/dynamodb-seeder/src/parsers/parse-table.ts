@@ -3,8 +3,8 @@ import { TableDefinition } from '../types'
 import parseThroughput from './parse-throughput'
 import parseKeySchema from './parse-key-schema'
 
-export default function parseTable(table: unknown): TableDefinition {
-  const { name, throughput, keys } = table as Record<string, unknown>
+export default function parseTable(data: unknown): TableDefinition {
+  const { name, throughput, keys } = data as Record<string, unknown>
 
   assert(!!(name as string)?.trim(), 'Table name must be specified')
 

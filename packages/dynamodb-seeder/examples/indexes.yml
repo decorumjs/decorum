@@ -1,0 +1,20 @@
+
+indexes:
+  - name: GSI1
+    tableName: MainTable
+    throughput:
+      readCapacityUnits: 5
+      writeCapacityUnits: 5
+    keys:
+      partitionKey:
+        name: PK
+        type: string
+      sortKey:
+        name: SK
+        type: string
+    projection:
+      type: all
+      attributes:
+        - firstName
+        - lastName
+        - emailAddress

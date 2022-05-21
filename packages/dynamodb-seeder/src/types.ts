@@ -15,7 +15,7 @@ export type IndexDefinition = {
   tableName: string
   throughput: Throughput
   keys: KeySchema
-  projection: 'all' | 'keys_only' | string[]
+  projection: Projection
 }
 
 export type ItemArray = {
@@ -39,11 +39,22 @@ export type KeySchema = {
 
 export type AttributeDefinition = {
   name: string
-  type: AttributeTypes
+  type: AttributeType
 }
 
-export enum AttributeTypes {
+export type Projection = {
+  type: ProjectionType
+  attributes?: string[]
+}
+
+export enum AttributeType {
   String = 'string',
   Number = 'number',
   Binary = 'binary',
+}
+
+export enum ProjectionType {
+  All = 'all',
+  KeysOnly = 'keys_only',
+  Include = 'include',
 }
