@@ -1,7 +1,7 @@
 import fs from 'fs'
 import yaml from 'js-yaml'
 
-export function loadYamlDoc<T>(filename: string): Promise<T> {
+export function loadYamlFile<T>(filename: string): Promise<T> {
   return new Promise((resolve, reject) => {
     fs.readFile(filename, 'utf8', (err, data) => {
       if (err) {

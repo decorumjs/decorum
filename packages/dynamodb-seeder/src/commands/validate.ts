@@ -1,6 +1,6 @@
 import { ArgumentsCamelCase } from 'yargs'
 import resolveFiles from '../helpers/resolve-files'
-import { loadYamlDoc } from '../loaders/yaml-loader'
+import { loadYamlFile } from '../loaders/yaml-loader'
 
 export type ValidateArgs = {
   files: string[]
@@ -10,7 +10,7 @@ export type ValidateArgs = {
 export async function validate(args: ArgumentsCamelCase<ValidateArgs>): Promise<void> {
   const files = await resolveFiles(...args.files)
   for (const filename of files) {
-    const doc = await loadYamlDoc(filename)
+    const doc = await loadYamlFile(filename)
     console.log(JSON.stringify(doc, null, 2))
   }
 }
