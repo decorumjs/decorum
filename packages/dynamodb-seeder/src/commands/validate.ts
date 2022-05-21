@@ -1,28 +1,21 @@
 import { ArgumentsCamelCase } from 'yargs'
+import resolveFiles from '../helpers/resolve-files'
 
-type ValidateArgs = {
-  port: number
+export type ValidateArgs = {
+  files: string[]
   [key: string]: unknown
 }
 
-export default {
-  command: 'validate [files]',
-  describe: 'Validates one or more seed data files',
-  builder: {
-    port: {
-      describe: 'port for something',
-      default: 9001,
-    },
-  },
-  handler,
+export async function validate(args: ArgumentsCamelCase<ValidateArgs>): Promise<void> {
+  const files = await resolveFiles(args.files)
+  for (const filename of files) {
+    console.log(filename)
+  }
 }
 
-function handler(args: ArgumentsCamelCase<ValidateArgs>): Promise<void> {
-  console.log('validate')
-  const keys = Object.keys(args)
-  for (let i = 0; i < keys.length; i++) {
-    const value = args[keys[i]]
-    console.log(`arg.${keys[i]} = ${value} (${typeof value})`)
-  }
-  return Promise.resolve()
+export default {
+  command: 'validate <files..>',
+  describe: 'Validates one or more seed data files',
+  builder: {},
+  handler: validate,
 }
