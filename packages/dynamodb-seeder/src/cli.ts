@@ -1,8 +1,19 @@
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
 
-function main(...args: string[]): void {
-  console.log("Hello world!")
-  for (let i = 0; i < args.length; i++)
-    console.log(`arg[${i}] = ${args[i]}`)
+import validateCommand from './commands/validate'
+
+const environment = {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  version: require('../package.json').version,
 }
 
-main(...process.argv.slice(2))
+// prettier-ignore
+yargs(hideBin(process.argv))
+  .scriptName('dynamodb-seeder')
+  .version('version', environment.version)
+  .usage('$0 <cmd> [args]')
+  .command(validateCommand)
+  .demandCommand()
+  .help()
+  .argv
