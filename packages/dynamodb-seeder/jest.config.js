@@ -5,4 +5,5 @@ const { name } = require('./package.json')
 module.exports = {
   ...base,
   displayName: name,
+  roots: ['<rootDir>/src'],
 }

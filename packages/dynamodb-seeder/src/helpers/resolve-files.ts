@@ -1,6 +1,6 @@
 import glob from 'glob'
 
-export default async function resolveFiles(filePatterns: string[]): Promise<string[]> {
+export default async function resolveFiles(...filePatterns: string[]): Promise<string[]> {
   const uniqueFilenames = new Set()
 
   for (const pattern of filePatterns) {
@@ -8,6 +8,7 @@ export default async function resolveFiles(filePatterns: string[]): Promise<stri
     matches.forEach((filename) => uniqueFilenames.add(filename))
   }
 
+  console.log(uniqueFilenames)
   return Array.from(uniqueFilenames) as string[]
 }
 

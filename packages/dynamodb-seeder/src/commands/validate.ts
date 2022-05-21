@@ -7,7 +7,7 @@ export type ValidateArgs = {
 }
 
 export async function validate(args: ArgumentsCamelCase<ValidateArgs>): Promise<void> {
-  const files = await resolveFiles(args.files)
+  const files = await resolveFiles(...args.files)
   for (const filename of files) {
     console.log(filename)
   }
