@@ -18,6 +18,15 @@ export type IndexDefinition = {
   projection: 'all' | 'keys_only' | string[]
 }
 
+export type ItemArray = {
+  tableName: string
+  data: Item[]
+}
+
+export type Item = {
+  [key: string]: unknown
+}
+
 export type ProvisionedThroughput = {
   readCapacityUnits: number
   writeCapacityUnits: number
@@ -30,14 +39,11 @@ export type KeySchema = {
 
 export type AttributeDefinition = {
   name: string
-  type: 'string' | 'number' | 'binary'
+  type: AttributeTypes
 }
 
-export type ItemArray = {
-  tableName: string
-  data: Item[]
-}
-
-export type Item = {
-  [key: string]: unknown
+export enum AttributeTypes {
+  String = 'string',
+  Number = 'number',
+  Binary = 'binary',
 }

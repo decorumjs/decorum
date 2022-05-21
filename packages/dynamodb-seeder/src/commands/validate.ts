@@ -1,6 +1,8 @@
+import { green, red } from 'chalk'
 import { ArgumentsCamelCase } from 'yargs'
 import resolveFiles from '../helpers/resolve-files'
-import { loadYamlFile } from '../loaders/yaml-loader'
+import loadYamlFile from '../loaders/load-yaml-file'
+import parseSeedData from '../parsers/parse-seed-data'
 
 export type ValidateArgs = {
   files: string[]
@@ -10,8 +12,15 @@ export type ValidateArgs = {
 export async function validate(args: ArgumentsCamelCase<ValidateArgs>): Promise<void> {
   const files = await resolveFiles(...args.files)
   for (const filename of files) {
-    const doc = await loadYamlFile(filename)
-    console.log(JSON.stringify(doc, null, 2))
+    try {
+      const doc = await loadYamlFile(filename)
+      parseSeedData(doc)
+      console.log(`${filename} - ${green('PASS')}`)
+    } catch ({ message }) {
+      console.log(`${filename} - ${red('FAIL')}`)
+      console.error(red(`ERROR: ${message}`))
+      process.exitCode = 1
+    }
   }
 }
 
