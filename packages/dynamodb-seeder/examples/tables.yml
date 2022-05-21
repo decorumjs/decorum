@@ -1,0 +1,13 @@
+
+tables:
+  - name: MainTable
+    throughput:
+      readCapacityUnits: 5
+      writeCapacityUnits: 5
+    keys:
+      partitionKey:
+        name: pk
+        type: string
+      sortKey:
+        name: sk
+        type: string

@@ -1,12 +1,11 @@
 {
   "name": "root",
   "private": true,
-  "workspaces": ["./packages/*"],
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "start": "lerna run start --",
-    "test": "lerna run test --",
-    "test:coverage": "npm run test --coverage"
+    "test": "lerna run test",
+    "test:coverage": "npm run test -- --coverage"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.2",
