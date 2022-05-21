@@ -1,5 +1,5 @@
 import parseTable from './parse-table'
-import { AttributeDefinition } from '../types'
+import { AttributeDefinition, AttributeTypes } from '../types'
 
 describe('parseTable() function', () => {
   let tableData: Record<string, unknown>
@@ -14,11 +14,11 @@ describe('parseTable() function', () => {
       keys: {
         partitionKey: {
           name: 'PK',
-          type: 'string',
+          type: AttributeTypes.String,
         },
         sortKey: {
           name: 'SK',
-          type: 'string',
+          type: AttributeTypes.String,
         },
       },
     }
@@ -111,6 +111,12 @@ describe('parseTable() function', () => {
     })
 
     describe('partitionKey object', () => {
+      it('should return `partitionKey` from key schema', () => {
+        const table = parseTable(tableData)
+        const keySchema = tableData.keys as Record<string, AttributeDefinition>
+        expect(table.keys.partitionKey).toEqual(keySchema.partitionKey)
+      })
+
       it.each([
         ['undefined', undefined, /partition key must be specified/i],
         ['null', null, /partition key must be specified/i],
@@ -155,16 +161,17 @@ describe('parseTable() function', () => {
     })
 
     describe('sortKey object', () => {
-      it('should return `partitionKey` from key schema', () => {
-        const table = parseTable(tableData)
-        const keySchema = tableData.keys as Record<string, AttributeDefinition>
-        expect(table.keys.partitionKey).toEqual(keySchema.partitionKey)
-      })
-
       it('should return `sortKey` from key schema', () => {
         const table = parseTable(tableData)
         const keySchema = tableData.keys as Record<string, AttributeDefinition>
         expect(table.keys.sortKey).toEqual(keySchema.sortKey)
+      })
+
+      it('should allow `sortKey` to be optional', () => {
+        const keySchema = tableData.keys as Record<string, AttributeDefinition>
+        delete keySchema.sortKey
+
+        expect(() => parseTable(tableData)).not.toThrowError()
       })
 
       it.each([
