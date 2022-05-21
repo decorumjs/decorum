@@ -1,7 +1,7 @@
 export type SeedData = {
   tables?: TableDefinition[]
   indexes?: IndexDefinition[]
-  items: ItemArray[]
+  items?: ItemArray[]
 }
 
 export type TableDefinition = {
