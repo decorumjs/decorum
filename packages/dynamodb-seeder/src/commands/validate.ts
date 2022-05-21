@@ -15,10 +15,10 @@ export async function validate(args: ArgumentsCamelCase<ValidateArgs>): Promise<
     try {
       const doc = await loadYamlFile(filename)
       parseSeedData(doc)
-      console.log(`${filename} - ${green('PASS')}`)
+      console.log(`${filename} - ${green('OK')}`)
     } catch ({ message }) {
-      console.log(`${filename} - ${red('FAIL')}`)
-      console.error(red(`ERROR: ${message}`))
+      const failMessage = `ERROR: ${message}`
+      console.log(`${filename} - ${red(failMessage)}`)
       process.exitCode = 1
     }
   }
