@@ -1,4 +1,5 @@
 import parseTable from './parse-table'
+import { AttributeDefinition } from '../types'
 
 describe('parseTable() function', () => {
   let tableData: Record<string, unknown>
@@ -126,19 +127,46 @@ describe('parseTable() function', () => {
       it.each([
         ['undefined', undefined, /partition key name must be a string/i],
         ['null', null, /partition key name must be a string/i],
-        ['empty string', '', /partition key name must be a string/i],
-        ['whitespace', ' ', /partition key name must be specified/i],
         ['boolean', true, /partition key name must be a string/i],
         ['number', 10, /partition key name must be a string/i],
+        ['empty string', '', /partition key name must be a string/i],
+        ['whitespace', ' ', /partition key name must be specified/i],
       ])('should throw error when `name` is %s', (_, value, errorPattern) => {
         const keySchema = tableData.keys as Record<string, unknown>
         const partitionKey = keySchema.partitionKey as Record<string, unknown>
         partitionKey.name = value
         expect(() => parseTable(tableData)).toThrowError(errorPattern)
       })
+
+      it.each([
+        ['undefined', undefined, /partition key type must be a string/i],
+        ['null', null, /partition key type must be a string/i],
+        ['boolean', true, /partition key type must be a string/i],
+        ['number', 10, /partition key type must be a string/i],
+        ['empty string', '', /partition key type must be a string/i],
+        ['whitespace', ' ', /partition key type is invalid/i],
+        ['invalid string', 'test', /partition key type is invalid/i],
+      ])('should throw error when `type` is %s', (_, value, errorPattern) => {
+        const keySchema = tableData.keys as Record<string, unknown>
+        const partitionKey = keySchema.partitionKey as Record<string, unknown>
+        partitionKey.type = value
+        expect(() => parseTable(tableData)).toThrowError(errorPattern)
+      })
     })
 
     describe('sortKey object', () => {
+      it('should return `partitionKey` from key schema', () => {
+        const table = parseTable(tableData)
+        const keySchema = tableData.keys as Record<string, AttributeDefinition>
+        expect(table.keys.partitionKey).toEqual(keySchema.partitionKey)
+      })
+
+      it('should return `sortKey` from key schema', () => {
+        const table = parseTable(tableData)
+        const keySchema = tableData.keys as Record<string, AttributeDefinition>
+        expect(table.keys.sortKey).toEqual(keySchema.sortKey)
+      })
+
       it.each([
         ['empty string', '', /sort key definition is invalid/i],
         ['boolean', true, /sort key definition is invalid/i],
@@ -153,14 +181,29 @@ describe('parseTable() function', () => {
       it.each([
         ['undefined', undefined, /sort key name must be a string/i],
         ['null', null, /sort key name must be a string/i],
-        ['empty string', '', /sort key name must be a string/i],
-        ['whitespace', ' ', /sort key name must be specified/i],
         ['boolean', true, /sort key name must be a string/i],
         ['number', 10, /sort key name must be a string/i],
+        ['empty string', '', /sort key name must be a string/i],
+        ['whitespace', ' ', /sort key name must be specified/i],
       ])('should throw error when `name` is %s', (_, value, errorPattern) => {
         const keySchema = tableData.keys as Record<string, unknown>
         const sortKey = keySchema.sortKey as Record<string, unknown>
         sortKey.name = value
+        expect(() => parseTable(tableData)).toThrowError(errorPattern)
+      })
+
+      it.each([
+        ['undefined', undefined, /sort key type must be a string/i],
+        ['null', null, /sort key type must be a string/i],
+        ['boolean', true, /sort key type must be a string/i],
+        ['number', 10, /sort key type must be a string/i],
+        ['empty string', '', /sort key type must be a string/i],
+        ['whitespace', ' ', /sort key type is invalid/i],
+        ['invalid string', 'test', /sort key type is invalid/i],
+      ])('should throw error when `type` is %s', (_, value, errorPattern) => {
+        const keySchema = tableData.keys as Record<string, unknown>
+        const sortKey = keySchema.sortKey as Record<string, unknown>
+        sortKey.type = value
         expect(() => parseTable(tableData)).toThrowError(errorPattern)
       })
     })
