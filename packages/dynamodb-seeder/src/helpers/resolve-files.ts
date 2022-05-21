@@ -8,7 +8,6 @@ export default async function resolveFiles(...filePatterns: string[]): Promise<s
     matches.forEach((filename) => uniqueFilenames.add(filename))
   }
 
-  console.log(uniqueFilenames)
   return Array.from(uniqueFilenames) as string[]
 }
 
