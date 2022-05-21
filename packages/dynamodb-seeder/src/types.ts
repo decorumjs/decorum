@@ -6,14 +6,14 @@ export type SeedData = {
 
 export type TableDefinition = {
   name: string
-  throughput: ProvisionedThroughput
+  throughput: Throughput
   keys: KeySchema
 }
 
 export type IndexDefinition = {
   name: string
   tableName: string
-  throughput: ProvisionedThroughput
+  throughput: Throughput
   keys: KeySchema
   projection: 'all' | 'keys_only' | string[]
 }
@@ -27,7 +27,7 @@ export type Item = {
   [key: string]: unknown
 }
 
-export type ProvisionedThroughput = {
+export type Throughput = {
   readCapacityUnits: number
   writeCapacityUnits: number
 }
