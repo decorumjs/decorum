@@ -2,7 +2,7 @@
 
 Command-line interface for seeding data into DynamoDB
 
-[![npm version](https://badge.fury.io/js/@decorum%2Fdynamodb-seeder@2x.png)](https://badge.fury.io/js/@decorum%2Fdynamodb-seeder)
+[![npm version](https://badge.fury.io/js/@decorum%2Fdynamodb-seeder.svg)](https://badge.fury.io/js/@decorum%2Fdynamodb-seeder)
 
 ## Why do I need this?
 When working with serverless projects, you often need to seed initial tables, indexes, and items into DynamoDB.
