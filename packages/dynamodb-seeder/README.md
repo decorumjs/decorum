@@ -62,7 +62,7 @@ Options:
 ```
 
 ### Validate
-You could validate some files manually:
+You could validate some files individually:
 ```bash
 $ dynamodb-seeder validate tables.yml indexes.yml items.yml
 ```
@@ -70,7 +70,7 @@ $ dynamodb-seeder validate tables.yml indexes.yml items.yml
 Or you can use [glob](https://www.npmjs.com/package/glob) pattern matching:
 
 ```bash
-$ dynamodb-seeder validate ./seed/**/*.yml
+$ dynamodb-seeder validate ./examples/**/*.yml
 
 examples/indexes.yml - OK
 examples/items.yml - OK

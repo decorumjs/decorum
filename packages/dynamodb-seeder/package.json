@@ -6,7 +6,6 @@
   "bin": {
     "dynamodb-seeder": "dist/cli.js"
   },
-  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
