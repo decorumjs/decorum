@@ -63,6 +63,8 @@ Options:
   --help     Show help                                                 [boolean]
 ```
 
+See the [examples](./examples) for sample YAML files.
+
 ### Validate
 You could validate some files individually:
 ```bash
