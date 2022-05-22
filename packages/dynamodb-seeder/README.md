@@ -20,7 +20,20 @@ While there are many DynamoDB seeder libraries and utilities available, there ar
 - **Tested** - Complete unit test coverage
 
 When trying various existing DynamoDB seeders, we felt that each had quirks or limitations that were frustrating.
-So we ended up making this one.
+So we ended up making this one to suit our needs.
+
+## Single-Table Design
+We use the [Single-Table Design](https://www.alexdebrie.com/posts/dynamodb-single-table/) approach to DynamoDB as much as possible.
+The seeder was built around the common cases and design patterns when using a single table with global secondary indexes (GSIs).
+
+However, even if you are not employing that design pattern you can still use this seeder all the same.
+We do recommend you checking out Single-Table design though!
+
+**If you're curious...**
+
+- [AWS re:Invent 2018: Amazon DynamoDB Deep Dive](https://www.youtube.com/watch?v=HaEPXoXVf2k) (Rick Houlihan)
+- [Fundamentals of Amazon DynamoDB Single Table Design](https://www.youtube.com/watch?v=KYy8X8t4MB8) (Rick Houlihan)
+- [The DynamoDB Book](https://dynamodbbook.com/) (Alex DeBrie)
 
 ## Installation
 You can install the command-line interface globally:
