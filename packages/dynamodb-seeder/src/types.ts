@@ -1,7 +1,7 @@
 export type SeedData = {
   tables?: TableDefinition[]
   indexes?: IndexDefinition[]
-  items?: ItemArray[]
+  collections?: ItemCollection[]
 }
 
 export type TableDefinition = {
@@ -18,9 +18,9 @@ export type IndexDefinition = {
   projection: Projection
 }
 
-export type ItemArray = {
+export type ItemCollection = {
   tableName: string
-  data: Item[]
+  items: Item[]
 }
 
 export type Item = {

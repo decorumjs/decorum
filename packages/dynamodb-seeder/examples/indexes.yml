@@ -14,7 +14,3 @@ indexes:
         type: string
     projection:
       type: all
-      attributes:
-        - firstName
-        - lastName
-        - emailAddress
