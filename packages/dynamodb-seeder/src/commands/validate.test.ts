@@ -23,6 +23,7 @@ describe('validate command', () => {
     }
 
     mockConsoleLog = jest.spyOn(console, 'log').mockImplementation()
+
     mockResolveFiles = resolveFiles as unknown as jest.SpyInstance
     mockLoadYamlFile = loadYamlFile as unknown as jest.SpyInstance
     mockParseSeedData = parseSeedData as unknown as jest.SpyInstance

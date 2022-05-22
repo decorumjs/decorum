@@ -2,3 +2,67 @@
 
 Command-line interface for seeding data into DynamoDB
 
+## Why do I need this?
+When working with serverless projects, you often need to seed initial tables, indexes, and items into DynamoDB.
+
+Most projects will have accompanying data files that are used to populate the local database via a simple package script.
+You can also use this to seed remote environments, if you so wish.
+
+## What makes this seeder special?
+While there are many DynamoDB seeder libraries and utilities available, there are several advantages to ours:
+
+- **YAML Support** - Allows for much more compact and readable data files
+- **Glob Support** - Allows for pattern matching on files
+- **Index Support** - Can create secondary indexes on tables
+- **Validation** - Data files are validated prior to seed and give informative errors
+- **Linting** - Data files can be validated on demand (good for CI/CD pipelines)
+- **Lightweight** -  Uses the new modular [AWS SDK v3](https://github.com/aws/aws-sdk-js-v3)
+- **Tested** - Complete unit test coverage
+
+When trying various existing DynamoDB seeders, we felt that each had quirks or limitations that were frustrating.
+So we ended up making this one.
+
+## Installation
+You can install the command-line interface globally:
+
+```bash
+$ npm install -g @decorum/dynamodb-seeder
+```
+
+Or as a dev-dependency for your project:
+```
+$ npm install -D @decorum/dynamodb-seeder
+```
+
+## Usage
+Once installed you can use the `dynamodb-seeder` binary:
+
+```bash
+dynamodb-seeder <cmd> [args]
+
+Commands:
+  dynamodb-seeder validate <files..>  Validates one or more seed data files
+
+Options:
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
+```
+
+### Validate
+You could validate some files manually:
+```bash
+$ dynamodb-seeder validate tables.yml indexes.yml items.yml
+```
+
+Or you can use [glob](https://www.npmjs.com/package/glob) pattern matching:
+
+```bash
+$ dynamodb-seeder validate ./seed/**/*.yml
+
+examples/indexes.yml - OK
+examples/items.yml - OK
+examples/tables.yml - ERROR: Sort key type is invalid
+```
+This can be useful if you store all your seed data files in a single directory within your project.
+
+**NOTE:** The `validate` command will return a non-zero exit code if any data file fails validation.
