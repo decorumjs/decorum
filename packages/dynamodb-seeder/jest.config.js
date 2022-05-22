@@ -6,4 +6,5 @@ module.exports = {
   ...base,
   displayName: name,
   roots: ['<rootDir>/src'],
+  coveragePathIgnorePatterns: ['src/cli.ts', ...base.coveragePathIgnorePatterns],
 }

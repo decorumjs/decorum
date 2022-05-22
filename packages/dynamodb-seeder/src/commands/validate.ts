@@ -11,6 +11,8 @@ export type ValidateArgs = {
 
 export async function validate(args: ArgumentsCamelCase<ValidateArgs>): Promise<void> {
   const files = await resolveFiles(...args.files)
+
+  let didFail = false
   for (const filename of files) {
     try {
       const doc = await loadYamlFile(filename)
@@ -19,9 +21,11 @@ export async function validate(args: ArgumentsCamelCase<ValidateArgs>): Promise<
     } catch ({ message }) {
       const failMessage = `ERROR: ${message}`
       console.log(`${filename} - ${red(failMessage)}`)
-      process.exitCode = 1
+      didFail = true
     }
   }
+
+  process.exitCode = didFail ? 1 : 0
 }
 
 export default {

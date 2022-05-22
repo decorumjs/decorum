@@ -7,10 +7,10 @@ indexes:
       writeCapacityUnits: 5
     keys:
       partitionKey:
-        name: PK
+        name: GSI1PK
         type: string
       sortKey:
-        name: SK
+        name: GSI1SK
         type: string
     projection:
       type: all

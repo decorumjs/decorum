@@ -15,7 +15,7 @@ describe('resolveFiles() function', () => {
     const pattern = '*.ts'
     await resolveFiles(pattern)
 
-    expect(glob).toHaveBeenCalledWith(pattern, expect.any(Function))
+    expect(mockGlob).toHaveBeenCalledWith(pattern, expect.any(Function))
   })
 
   it('should call glob() with array of file patterns', async () => {
@@ -23,7 +23,7 @@ describe('resolveFiles() function', () => {
     await resolveFiles(...patterns)
 
     patterns.forEach((filename) => {
-      expect(glob).toHaveBeenCalledWith(filename, expect.any(Function))
+      expect(mockGlob).toHaveBeenCalledWith(filename, expect.any(Function))
     })
   })
 

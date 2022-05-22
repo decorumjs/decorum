@@ -15,7 +15,7 @@
     "lint": "eslint src --ext .ts",
     "lint:fix": "npm run lint -- --fix",
     "pretty": "prettier --write \"./src/**/*.ts\"",
-    "test": "jest",
+    "test": "jest --silent",
     "test:coverage": "npm run test -- --coverage",
     "test:watch": "npm run test -- --watch"
   },
