@@ -1,8 +1,11 @@
 {
   "name": "@decorum/dynamodb-seeder",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Command-line interface for seeding data into DynamoDB",
   "main": "dist/cli.js",
+  "bin": {
+    "dynamodb-seeder": "dist/cli.js"
+  },
   "types": "dist/index.d.ts",
   "files": [
     "dist"
@@ -10,7 +13,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsc",
-    "prepublish": "npm run clean && npm run build",
+    "prepare": "npm run clean && npm run build",
     "start": "ts-node src/cli.ts",
     "lint": "eslint src --ext .ts",
     "lint:fix": "npm run lint -- --fix",
