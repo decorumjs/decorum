@@ -16,8 +16,7 @@ While there are many DynamoDB seeder libraries and utilities available, there ar
 - **YAML Support** - Allows for much more compact and readable data files
 - **Glob Support** - Allows for pattern matching on files
 - **Index Support** - Can create secondary indexes on tables
-- **Validation** - Data files are validated prior to seed and give informative errors
-- **Linting** - Data files can be validated on demand (good for CI/CD pipelines)
+- **Linting** - Data files are linted before seeding and can be linted on demand (CI/CD)
 - **Lightweight** -  Uses the new modular [AWS SDK v3](https://github.com/aws/aws-sdk-js-v3)
 - **Tested** - Complete unit test coverage
 
@@ -45,7 +44,7 @@ $ npm install -g @decorum/dynamodb-seeder
 ```
 
 Or as a dev-dependency for your project:
-```
+```bash
 $ npm install -D @decorum/dynamodb-seeder
 ```
 
@@ -56,25 +55,28 @@ Once installed you can use the `dynamodb-seeder` command-line interface:
 dynamodb-seeder <cmd> [args]
 
 Commands:
-  dynamodb-seeder validate <files..>  Validates one or more seed data files
+  dynamodb-seeder lint <files..>            Lints data files for errors
+  dynamodb-seeder seed <files..> [options]  Seeds data files into DynamoDB
 
 Options:
   --version  Show version number                                       [boolean]
   --help     Show help                                                 [boolean]
 ```
 
+If you want help for specific commands, you can run `dynamodb-seeder <cmd>> help`.
+
 See the [examples](./examples) for sample YAML files.
 
-### Validate
-You could validate some files individually:
+### Lint
+You could lint some files individually:
 ```bash
-$ dynamodb-seeder validate tables.yml indexes.yml items.yml
+$ dynamodb-seeder lint tables.yml indexes.yml items.yml
 ```
 
 Or you can use [glob](https://www.npmjs.com/package/glob) pattern matching:
 
 ```bash
-$ dynamodb-seeder validate ./examples/**/*.yml
+$ dynamodb-seeder lint ./examples/**/*.yml
 
 examples/indexes.yml - OK
 examples/items.yml - OK
@@ -82,4 +84,4 @@ examples/tables.yml - ERROR: Sort key type is invalid
 ```
 This can be useful if you store all your seed data files in a single directory within your project.
 
-**NOTE:** The `validate` command will return a non-zero exit code if any data file fails validation.
+**NOTE:** The `lint` command will return a non-zero exit code if **any** data file fails validation.
