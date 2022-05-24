@@ -4,6 +4,11 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: '<rootDir>/coverage',
   collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  coverageThreshold: {
+    global: {
+      lines: 90,
+    },
+  },
   coveragePathIgnorePatterns: ['jest.config.js', '/node_modules/', '/dist/'],
   verbose: true,
 }
