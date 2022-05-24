@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `seed` command
 
 ### Changed
-- `validate` command renamed to `lint` (aliased to `validate`)
+- `validate` command renamed to `lint` (aliased as `validate`)
 
 ## [0.1.2] - 2022-05-22
 ### Added
