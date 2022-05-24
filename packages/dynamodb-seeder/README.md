@@ -69,7 +69,7 @@ If you want help for specific commands, you can run `dynamodb-seeder <cmd>> help
 See the [examples](./examples) for sample YAML files.
 
 ### Lint
-You could lint some files individually:
+You can lint files individually:
 ```bash
 $ dynamodb-seeder lint tables.yml indexes.yml items.yml
 ```
@@ -86,3 +86,27 @@ examples/tables.yml - ERROR: Sort key type is invalid
 This can be useful if you store all your seed data files in a single directory within your project.
 
 **NOTE:** The `lint` command will return a non-zero exit code if **any** data file fails validation.
+
+### Seed
+You can seed files individually:
+```bash
+$ dynamodb-seeder seed tables.yml indexes.yml items.yml
+```
+
+Or you can use [glob](https://www.npmjs.com/package/glob) pattern matching:
+
+```bash
+$ dynamodb-seeder lint './examples/**/*.yml'
+
+Validating data files...OK
+Seeding table 'MainTable'...EXISTS
+Seeding index 'GSI1' on table 'MainTable'...EXISTS
+Seeding index 'GSI2' on table 'MainTable'...EXISTS
+Seeding items into 'MainTable' table...OK
+```
+
+The seeder will not attempt to re-create any tables or indexes.
+To do this you will need to delete the table or index and re-seed manually.
+
+**NOTE:** The `seed` command will return a non-zero exit code and abort if **any** error occurs in the seeding process.
+
