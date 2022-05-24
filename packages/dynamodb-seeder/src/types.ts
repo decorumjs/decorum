@@ -1,3 +1,8 @@
+export type SeedDataFile = {
+  filename: string
+  data: SeedData
+}
+
 export type SeedData = {
   tables?: TableDefinition[]
   indexes?: IndexDefinition[]
