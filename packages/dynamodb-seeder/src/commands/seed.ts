@@ -7,7 +7,10 @@ import resolveFiles from '../helpers/resolve-files'
 import loadYamlFile from '../loaders/load-yaml-file'
 import parseSeedData from '../parsers/parse-seed-data'
 import { aggregateCollections, aggregateIndexes, aggregateTables } from '../helpers/aggregate-data'
-import { createIndex, createTable, AWSErrors } from '../dynamodb'
+import { AWSErrors, createIndex, createTable, describeTable } from '../dynamodb'
+
+const ERR_LINT_FAILED = 1
+const ERR_SEED_FAILED = 2
 
 export type SeedArgs = {
   files: string[]
@@ -31,9 +34,7 @@ export async function seed(args: ArgumentsCamelCase<SeedArgs>): Promise<void> {
       const data = parseSeedData(contents)
       dataFiles.push({ filename, data })
     } catch ({ message }) {
-      logError(`${message} (${filename})`)
-      process.exitCode = 1
-      return
+      return logFatal(`${message} (${filename})`, ERR_LINT_FAILED)
     }
   }
   logInfo(green('OK'))
@@ -79,7 +80,7 @@ export async function seed(args: ArgumentsCamelCase<SeedArgs>): Promise<void> {
       if (name === AWSErrors.ResourceInUseException) {
         logInfo(yellow('EXISTS'))
       } else {
-        logError(`${message} (${name})`)
+        return logFatal(`${message} (${name})`, ERR_SEED_FAILED)
       }
     }
   }
@@ -87,18 +88,32 @@ export async function seed(args: ArgumentsCamelCase<SeedArgs>): Promise<void> {
   // Seed each index to DynamoDB
   for (const index of allIndexes) {
     logInfo(`Seeding index '${index.name}' on table '${index.tableName}'...`, false)
+
+    // Check the table for existing indexes first
+    let indexAlreadyExists = false
     try {
-      await createIndex(client, index)
-      logInfo(green('OK'))
+      const tableInfo = await describeTable(client, index.tableName)
+      const existingIndexes = tableInfo.Table?.GlobalSecondaryIndexes ?? []
+      indexAlreadyExists = existingIndexes.some((indexInfo) => indexInfo.IndexName === index.name)
     } catch ({ name, message }) {
-      logError(`${message} (${name})`)
+      return logFatal(`${message} (${name})`, ERR_SEED_FAILED)
+    }
+
+    // Create the index if it does not already exist
+    if (!indexAlreadyExists) {
+      try {
+        await createIndex(client, index)
+        logInfo(green('OK'))
+      } catch ({ name, message }) {
+        return logFatal(`${message} (${name})`, ERR_SEED_FAILED)
+      }
+    } else {
+      logInfo(yellow('EXISTS'))
     }
   }
 
   for (const collection of allCollections) {
   }
-
-  return Promise.resolve()
 }
 
 function logInfo(message: string, newLine = true) {
@@ -113,6 +128,11 @@ function logWarning(message: string) {
 function logError(message: string) {
   const errorString = red('ERROR:')
   console.log(`${errorString} ${message}`)
+}
+
+function logFatal(message: string, exitCode: number) {
+  logError(message)
+  process.exitCode = exitCode
 }
 
 function getKeyCounts<T>(array: T[], keyFn: (value: T) => string): Record<string, number> {
