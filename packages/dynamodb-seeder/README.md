@@ -17,6 +17,7 @@ While there are many DynamoDB seeder libraries and utilities available, there ar
 - **Glob Support** - Allows for pattern matching on files
 - **Index Support** - Can create secondary indexes on tables
 - **Lint Support** - Data files are linted before seeding and can be linted on demand (CI/CD)
+- **Batch Writes** - Items are written in batches instead of individually
 - **Smart** - Seeded in order of `Tables -> Indexes -> Items` across all files
 - **Lightweight** -  Uses the new modular [AWS SDK v3](https://github.com/aws/aws-sdk-js-v3)
 - **Tested** - Complete unit test coverage
@@ -110,3 +111,10 @@ To do this you will need to delete the table or index and re-seed manually.
 
 **NOTE:** The `seed` command will return a non-zero exit code and abort if **any** error occurs in the seeding process.
 
+#### Options
+```bash
+--version   Show version number                                      [boolean]
+--help      Show help                                                [boolean]
+--endpoint  DynamoDB endpoint               [default: "http://localhost:8000"]
+--region    AWS region                                  [default: "us-east-1"]
+```
