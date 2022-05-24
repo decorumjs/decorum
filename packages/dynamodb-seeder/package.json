@@ -1,6 +1,6 @@
 {
   "name": "@decorum/dynamodb-seeder",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Command-line interface for seeding data into DynamoDB",
   "main": "dist/cli.js",
   "bin": {
