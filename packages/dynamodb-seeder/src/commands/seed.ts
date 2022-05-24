@@ -7,7 +7,7 @@ import resolveFiles from '../helpers/resolve-files'
 import loadYamlFile from '../loaders/load-yaml-file'
 import parseSeedData from '../parsers/parse-seed-data'
 import { aggregateCollections, aggregateIndexes, aggregateTables } from '../helpers/aggregate-data'
-import { AWSErrors, createIndex, createTable, describeTable } from '../dynamodb'
+import { AWSErrors, createIndex, createTable, describeTable, putItem } from '../dynamodb'
 
 const ERR_LINT_FAILED = 1
 const ERR_SEED_FAILED = 2
@@ -113,6 +113,15 @@ export async function seed(args: ArgumentsCamelCase<SeedArgs>): Promise<void> {
   }
 
   for (const collection of allCollections) {
+    logInfo(`Seeding items into '${collection.tableName}' table...`, false)
+    try {
+      for (const eachItem of collection.items) {
+        await putItem(client, collection.tableName, eachItem)
+      }
+      logInfo(green('OK'))
+    } catch ({ name, message }) {
+      return logFatal(`${message} (${name})`, ERR_SEED_FAILED)
+    }
   }
 }
 

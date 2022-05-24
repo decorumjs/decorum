@@ -2,8 +2,8 @@ collections:
   - tableName: MainTable
     items:
       - PK: item#1
-        SK: 1
+        SK: '2001-01-01'
         Name: "The first item"
       - PK: item#2
-        SK: 2
+        SK: '2002-02-02'
         Name: "The second item"
