@@ -1,3 +1,8 @@
+export type SeedDataFile = {
+  filename: string
+  data: SeedData
+}
+
 export type SeedData = {
   tables?: TableDefinition[]
   indexes?: IndexDefinition[]
@@ -33,11 +38,11 @@ export type Throughput = {
 }
 
 export type KeySchema = {
-  partitionKey: AttributeDefinition
-  sortKey?: AttributeDefinition
+  partitionKey: Attribute
+  sortKey?: Attribute
 }
 
-export type AttributeDefinition = {
+export type Attribute = {
   name: string
   type: AttributeType
 }

@@ -1,5 +1,6 @@
 
 tables:
+  # Single-Table Design
   - name: MainTable
     throughput:
       readCapacityUnits: 5

@@ -1,6 +1,6 @@
 {
   "name": "@decorum/dynamodb-seeder",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Command-line interface for seeding data into DynamoDB",
   "main": "dist/cli.js",
   "bin": {
@@ -37,6 +37,9 @@
     "cli"
   ],
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.95.0",
+    "@aws-sdk/lib-dynamodb": "^3.95.0",
+    "@aws-sdk/util-dynamodb": "^3.95.0",
     "chalk": "^4.1.2",
     "glob": "^8.0.3",
     "js-yaml": "^4.1.0",

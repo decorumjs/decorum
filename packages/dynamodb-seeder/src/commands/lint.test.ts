@@ -1,5 +1,5 @@
 import { ArgumentsCamelCase } from 'yargs'
-import { validate, ValidateArgs } from './validate'
+import { lint, LintArgs } from './lint'
 import resolveFiles from '../helpers/resolve-files'
 import loadYamlFile from '../loaders/load-yaml-file'
 import parseSeedData from '../parsers/parse-seed-data'
@@ -8,8 +8,8 @@ jest.mock('../helpers/resolve-files', () => jest.fn((...args) => Promise.resolve
 jest.mock('../loaders/load-yaml-file', () => jest.fn(() => Promise.resolve({})))
 jest.mock('../parsers/parse-seed-data', () => jest.fn(() => ({})))
 
-describe('validate command', () => {
-  let args: ArgumentsCamelCase<ValidateArgs>
+describe('lint command', () => {
+  let args: ArgumentsCamelCase<LintArgs>
   let mockConsoleLog: jest.SpyInstance
   let mockResolveFiles: jest.SpyInstance
   let mockLoadYamlFile: jest.SpyInstance
@@ -34,12 +34,12 @@ describe('validate command', () => {
   })
 
   it('should resolve all file patterns provided', async () => {
-    await validate(args)
+    await lint(args)
     expect(mockResolveFiles).toHaveBeenCalledWith(...args.files)
   })
 
   it('should load each data file', async () => {
-    await validate(args)
+    await lint(args)
     for (const filename of args.files) {
       expect(mockLoadYamlFile).toHaveBeenCalledWith(filename)
     }
@@ -49,13 +49,13 @@ describe('validate command', () => {
     const mockDocs = args.files.map(() => ({ tables: [], indexes: [], collections: [] }))
     mockDocs.forEach((doc) => mockLoadYamlFile.mockReturnValueOnce(doc))
 
-    await validate(args)
+    await lint(args)
 
     mockDocs.forEach((doc) => expect(mockParseSeedData).toHaveBeenCalledWith(doc))
   })
 
   it('should log `OK` on success', async () => {
-    await validate(args)
+    await lint(args)
     expect(mockConsoleLog).toHaveBeenCalledWith(expect.stringMatching(/OK.*$/i))
   })
 
@@ -65,7 +65,7 @@ describe('validate command', () => {
       throw err
     })
 
-    await validate(args)
+    await lint(args)
     expect(mockConsoleLog).toHaveBeenCalledWith(expect.stringMatching(/ERROR:.*$/i))
   })
 
@@ -75,7 +75,7 @@ describe('validate command', () => {
       throw err
     })
 
-    await validate(args)
+    await lint(args)
     expect(process.exitCode).not.toEqual(0)
   })
 })
