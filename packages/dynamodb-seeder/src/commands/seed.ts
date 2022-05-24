@@ -1,4 +1,4 @@
-import { green, red, white, yellow } from 'chalk'
+import { green, red, yellow } from 'chalk'
 import { ArgumentsCamelCase } from 'yargs'
 import { SeedDataFile } from '../types'
 import resolveFiles from '../helpers/resolve-files'
@@ -14,7 +14,6 @@ export type SeedArgs = {
 export async function seed(args: ArgumentsCamelCase<SeedArgs>): Promise<void> {
   const matchingFilenames = await resolveFiles(...args.files)
 
-  let didFailLint = false
   const dataFiles: SeedDataFile[] = []
 
   for (const filename of matchingFilenames) {
@@ -23,14 +22,10 @@ export async function seed(args: ArgumentsCamelCase<SeedArgs>): Promise<void> {
       const data = parseSeedData(contents)
       dataFiles.push({ filename, data })
     } catch ({ message }) {
-      logLintError(filename, message as string)
-      didFailLint = true
+      logError(`${message} ${filename}`)
+      process.exitCode = 1
+      return
     }
-  }
-
-  if (didFailLint) {
-    process.exitCode = 1
-    return
   }
 
   const allTables = aggregateTables(dataFiles.map((dataFile) => dataFile.data))
@@ -42,23 +37,23 @@ export async function seed(args: ArgumentsCamelCase<SeedArgs>): Promise<void> {
 
   for (const [tableName, count] of Object.entries(tableCounts)) {
     if (count > 1) {
-      logWarning(`Table '${white(tableName)}' is defined more than once`)
+      logWarning(`Table '${tableName}' is defined more than once`)
     }
   }
 
   for (const [tableIndexName, count] of Object.entries(indexCounts)) {
     const [tableName, indexName] = tableIndexName.split('#')
     if (count > 1) {
-      logWarning(`Index '${white(indexName)}' on table '${white(tableName)}' is defined more than once`)
+      logWarning(`Index '${indexName}' on table '${tableName}' is defined more than once`)
     }
   }
 
   return Promise.resolve()
 }
 
-function logLintError(filename: string, message: string) {
-  const errorString = red(`ERROR: ${message}`)
-  console.log(`${white(filename)} - ${errorString}`)
+function logError(message: string) {
+  const errorString = red('ERROR:')
+  console.log(`${errorString} ${message}`)
 }
 
 function logWarning(message: string) {

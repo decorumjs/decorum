@@ -1,4 +1,4 @@
-import { green, red, white } from 'chalk'
+import { green, red } from 'chalk'
 import { ArgumentsCamelCase } from 'yargs'
 import resolveFiles from '../helpers/resolve-files'
 import loadYamlFile from '../loaders/load-yaml-file'
@@ -31,12 +31,12 @@ export async function lint(args: ArgumentsCamelCase<LintArgs>): Promise<void> {
 
 function logLintSuccess(filename: string) {
   const successString = green('OK')
-  console.log(`${white(filename)} - ${successString}`)
+  console.log(`${filename} - ${successString}`)
 }
 
 function logLintError(filename: string, message: string) {
   const errorString = red(`ERROR: ${message}`)
-  console.log(`${white(filename)} - ${errorString}`)
+  console.log(`${filename} - ${errorString}`)
 }
 
 export default {
