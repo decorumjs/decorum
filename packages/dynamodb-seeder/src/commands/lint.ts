@@ -4,7 +4,7 @@ import resolveFiles from '../helpers/resolve-files'
 import loadYamlFile from '../loaders/load-yaml-file'
 import parseSeedData from '../parsers/parse-seed-data'
 
-const OK_STRING = green('OK')
+const SUCCESS_STRING = green('OK')
 
 export type LintArgs = {
   files: string[]
@@ -12,34 +12,36 @@ export type LintArgs = {
 }
 
 export async function lint(args: ArgumentsCamelCase<LintArgs>): Promise<void> {
-  const files = await resolveFiles(...args.files)
+  const matchingFilenames = await resolveFiles(...args.files)
 
-  let didFail = false
-  for (const filename of files) {
+  let didFailLint = false
+  for (const filename of matchingFilenames) {
     try {
-      const doc = await loadYamlFile(filename)
-      parseSeedData(doc)
-      logSuccess(filename)
+      const contents = await loadYamlFile(filename)
+      parseSeedData(contents)
+      logLintSuccess(filename)
     } catch ({ message }) {
-      logFailure(filename, message as string)
-      didFail = true
+      logLintError(filename, message as string)
+      didFailLint = true
     }
   }
 
-  process.exitCode = didFail ? 1 : 0
+  if (didFailLint) {
+    process.exitCode = 1
+  }
 }
 
-function logSuccess(filename: string) {
-  console.log(`${white(filename)} - ${OK_STRING}`)
+function logLintSuccess(filename: string) {
+  console.log(`${white(filename)} - ${SUCCESS_STRING}`)
 }
 
-function logFailure(filename: string, message: string) {
+function logLintError(filename: string, message: string) {
   const errorString = red(`ERROR: ${message}`)
   console.log(`${white(filename)} - ${errorString}`)
 }
 
 export default {
-  command: 'lint <files..>',
+  command: 'lint [options] <files..>',
   describe: 'Lints data files for errors',
   aliases: ['validate'],
   builder: {},
