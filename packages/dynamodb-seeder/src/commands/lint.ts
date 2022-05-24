@@ -4,8 +4,6 @@ import resolveFiles from '../helpers/resolve-files'
 import loadYamlFile from '../loaders/load-yaml-file'
 import parseSeedData from '../parsers/parse-seed-data'
 
-const SUCCESS_STRING = green('OK')
-
 export type LintArgs = {
   files: string[]
   [key: string]: unknown
@@ -32,7 +30,8 @@ export async function lint(args: ArgumentsCamelCase<LintArgs>): Promise<void> {
 }
 
 function logLintSuccess(filename: string) {
-  console.log(`${white(filename)} - ${SUCCESS_STRING}`)
+  const successString = green('OK')
+  console.log(`${white(filename)} - ${successString}`)
 }
 
 function logLintError(filename: string, message: string) {

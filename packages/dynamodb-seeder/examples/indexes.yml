@@ -1,5 +1,6 @@
 
 indexes:
+  # Global Secondary Index 1
   - name: GSI1
     tableName: MainTable
     throughput:
@@ -11,6 +12,21 @@ indexes:
         type: string
       sortKey:
         name: GSI1SK
+        type: string
+    projection:
+      type: all
+  # Global Secondary Index 2
+  - name: GSI2
+    tableName: MainTable
+    throughput:
+      readCapacityUnits: 5
+      writeCapacityUnits: 5
+    keys:
+      partitionKey:
+        name: GSI2PK
+        type: string
+      sortKey:
+        name: GSI2SK
         type: string
     projection:
       type: all
