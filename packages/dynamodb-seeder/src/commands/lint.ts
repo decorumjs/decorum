@@ -10,8 +10,10 @@ export type LintArgs = {
 }
 
 export async function lint(args: ArgumentsCamelCase<LintArgs>): Promise<void> {
+  // Resolve all file patterns via glob, flatten to single array
   const matchingFilenames = await resolveFiles(...args.files)
 
+  // Attempt to load and parse each file for linting
   let didFailLint = false
   for (const filename of matchingFilenames) {
     try {
@@ -24,6 +26,7 @@ export async function lint(args: ArgumentsCamelCase<LintArgs>): Promise<void> {
     }
   }
 
+  // If lint failed, set the exit code to 1 otherwise default to 0
   if (didFailLint) {
     process.exitCode = 1
   }

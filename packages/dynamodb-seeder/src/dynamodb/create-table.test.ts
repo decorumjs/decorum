@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-non-null-assertion */
 import { CreateTableCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb'
 import { TableDefinition } from '../types'
@@ -64,10 +65,8 @@ describe('createTable() function', () => {
 
     const { input } = mockSend.mock.calls[0][0] as CreateTableCommand
 
-    /* eslint-disable  @typescript-eslint/no-non-null-assertion */
     const skAttribute = mapAttributeDefinition(table.keys.sortKey!)
     const skKeyElement = mapKeySchemaElement(table.keys.sortKey!.name, 'RANGE')
-    /* eslint-enable  @typescript-eslint/no-non-null-assertion */
 
     expect(input.AttributeDefinitions).toEqual(expect.arrayContaining([skAttribute]))
     expect(input.KeySchema).toEqual(expect.arrayContaining([skKeyElement]))

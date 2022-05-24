@@ -1,5 +1,5 @@
 import { AttributeDefinition, KeySchemaElement, KeyType, ScalarAttributeType } from '@aws-sdk/client-dynamodb'
-import { Attribute, AttributeType, KeySchema } from '../types'
+import { Attribute, AttributeType, KeySchema, Projection } from '../types'
 
 export function mapKeyAttributes(keys: KeySchema): AttributeDefinition[] {
   const attributes: AttributeDefinition[] = [mapAttributeDefinition(keys.partitionKey)]
