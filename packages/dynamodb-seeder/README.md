@@ -96,7 +96,7 @@ $ dynamodb-seeder seed tables.yml indexes.yml items.yml
 Or you can use [glob](https://www.npmjs.com/package/glob) pattern matching:
 
 ```bash
-$ dynamodb-seeder lint './examples/**/*.yml'
+$ dynamodb-seeder seed './examples/**/*.yml'
 
 Validating data files...OK
 Seeding table 'MainTable'...EXISTS
