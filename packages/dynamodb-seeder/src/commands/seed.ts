@@ -1,3 +1,5 @@
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb'
 import { green, red, yellow } from 'chalk'
 import { ArgumentsCamelCase } from 'yargs'
 import { SeedDataFile } from '../types'
@@ -5,9 +7,12 @@ import resolveFiles from '../helpers/resolve-files'
 import loadYamlFile from '../loaders/load-yaml-file'
 import parseSeedData from '../parsers/parse-seed-data'
 import { aggregateCollections, aggregateIndexes, aggregateTables } from '../helpers/aggregate-data'
+import { createTable } from '../dynamodb'
 
 export type SeedArgs = {
   files: string[]
+  endpoint: string
+  region: string
   [key: string]: unknown
 }
 
@@ -48,17 +53,39 @@ export async function seed(args: ArgumentsCamelCase<SeedArgs>): Promise<void> {
     }
   }
 
+  const client = DynamoDBDocumentClient.from(
+    new DynamoDBClient({
+      region: args.region,
+      endpoint: args.endpoint,
+    }),
+  )
+
+  for (const table of allTables) {
+    logInfo(`Seeding table '${table.name}'...`)
+    await createTable(client, table)
+  }
+
+  for (const index of allIndexes) {
+  }
+
+  for (const collection of allCollections) {
+  }
+
   return Promise.resolve()
 }
 
-function logError(message: string) {
-  const errorString = red('ERROR:')
-  console.log(`${errorString} ${message}`)
+function logInfo(message: string) {
+  console.log(message)
 }
 
 function logWarning(message: string) {
   const warningString = yellow('WARN:')
   console.log(`${warningString} ${message}`)
+}
+
+function logError(message: string) {
+  const errorString = red('ERROR:')
+  console.log(`${errorString} ${message}`)
 }
 
 function getKeyCounts<T>(array: T[], keyFn: (value: T) => string): Record<string, number> {

@@ -38,11 +38,11 @@ export type Throughput = {
 }
 
 export type KeySchema = {
-  partitionKey: AttributeDefinition
-  sortKey?: AttributeDefinition
+  partitionKey: Attribute
+  sortKey?: Attribute
 }
 
-export type AttributeDefinition = {
+export type Attribute = {
   name: string
   type: AttributeType
 }

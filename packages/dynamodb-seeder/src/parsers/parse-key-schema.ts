@@ -1,12 +1,12 @@
 import assert from 'assert'
-import { AttributeDefinition, AttributeType, KeySchema } from '../types'
+import { Attribute, AttributeType, KeySchema } from '../types'
 
 const ATTRIBUTE_TYPE_VALUES = Object.values(AttributeType)
 
 export default function parseKeySchema(data: unknown): KeySchema {
   assert(!!data && typeof data === 'object' && !Array.isArray(data), 'Key schema must be an object')
 
-  const { partitionKey, sortKey } = data as Record<string, AttributeDefinition>
+  const { partitionKey, sortKey } = data as Record<string, Attribute>
 
   assert(partitionKey != null, 'Partition key must be specified')
   assert(typeof partitionKey === 'object' && !Array.isArray(partitionKey), 'Partition key must be an object')
