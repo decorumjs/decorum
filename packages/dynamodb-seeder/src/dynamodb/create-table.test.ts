@@ -78,5 +78,6 @@ describe('createTable() function', () => {
     mockSend.mockResolvedValueOnce(mockResult)
 
     await expect(createTable(client, table)).resolves.toEqual(mockResult)
+    expect(mockSend).toHaveBeenCalledWith(expect.any(CreateTableCommand))
   })
 })
