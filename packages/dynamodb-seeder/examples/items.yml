@@ -7,3 +7,27 @@ collections:
       - PK: item#2
         SK: '2002-02-02'
         Name: "The second item"
+      - PK: item#3
+        SK: '2003-03-03'
+        Name: "The third item"
+      - PK: item#4
+        SK: '2004-04-04'
+        Name: "The fourth item"
+      - PK: item#5
+        SK: '2005-05-05'
+        Name: "The fifth item"
+      - PK: item#6
+        SK: '2006-06-06'
+        Name: "The sixth item"
+      - PK: item#7
+        SK: '2007-07-07'
+        Name: "The seventh item"
+      - PK: item#8
+        SK: '2008-08-08'
+        Name: "The eighth item"
+      - PK: item#9
+        SK: '2009-09-09'
+        Name: "The ninth item"
+      - PK: item#10
+        SK: '2010-10-10'
+        Name: "The tenth item"

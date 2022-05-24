@@ -7,10 +7,12 @@ import resolveFiles from '../helpers/resolve-files'
 import loadYamlFile from '../loaders/load-yaml-file'
 import parseSeedData from '../parsers/parse-seed-data'
 import { aggregateCollections, aggregateIndexes, aggregateTables } from '../helpers/aggregate-data'
-import { AWSErrors, createIndex, createTable, describeTable, putItem } from '../dynamodb'
+import { AWSErrors, batchPutItem, createIndex, createTable, describeTable } from '../dynamodb'
 
 const ERR_LINT_FAILED = 1
 const ERR_SEED_FAILED = 2
+
+const MAX_BATCH_SIZE = 25
 
 export type SeedArgs = {
   files: string[]
@@ -115,8 +117,9 @@ export async function seed(args: ArgumentsCamelCase<SeedArgs>): Promise<void> {
   for (const collection of allCollections) {
     logInfo(`Seeding items into '${collection.tableName}' table...`, false)
     try {
-      for (const eachItem of collection.items) {
-        await putItem(client, collection.tableName, eachItem)
+      for (let i = 0; i < collection.items.length; i += MAX_BATCH_SIZE) {
+        const batchItems = collection.items.slice(i, i + MAX_BATCH_SIZE)
+        await batchPutItem(client, collection.tableName, batchItems)
       }
       logInfo(green('OK'))
     } catch ({ name, message }) {
