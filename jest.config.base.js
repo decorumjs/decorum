@@ -3,7 +3,7 @@ module.exports = {
   testEnvironment: 'node',
   collectCoverage: true,
   coverageDirectory: '<rootDir>/coverage',
-  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  collectCoverageFrom: ['<rootDir>/src/**/*.ts', '<rootDir>/**/src/**/*.ts'],
   coverageThreshold: {
     global: {
       lines: 90,
